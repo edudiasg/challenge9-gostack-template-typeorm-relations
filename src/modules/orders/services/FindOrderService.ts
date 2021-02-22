@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { inject, injectable } from 'tsyringe';
 
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
@@ -12,13 +13,18 @@ interface IRequest {
 @injectable()
 class FindOrderService {
   constructor(
+    @inject('ordersRepository')
     private ordersRepository: IOrdersRepository,
+    @inject('productsRepository')
     private productsRepository: IProductsRepository,
+    @inject('customersRepository')
     private customersRepository: ICustomersRepository,
-  ) {}
+  ) { }
 
   public async execute({ id }: IRequest): Promise<Order | undefined> {
-    // TODO
+    const order = await this.ordersRepository.findById(id);
+
+    return order;
   }
 }
 
